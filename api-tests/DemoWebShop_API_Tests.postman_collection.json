@@ -1,0 +1,89 @@
+{
+  "info": {
+    "_postman_id": "eaf3d07f-fae9-40a8-b820-6aa39e222a72",
+    "name": "DemoWebShop_API_Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "60243016",
+    "_collection_link": "https://go.postman.co/collection/60243016-eaf3d07f-fae9-40a8-b820-6aa39e222a72?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get All Users",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\nconst users = pm.response.json();\r\n\r\npm.test(\"Users list is not empty\", function () {\r\n    pm.expect(users).to.be.an(\"array\").that.is.not.empty;\r\n});\r\n\r\npm.collectionVariables.set(\"userId\", users[0].id.toString());\r\n\r\nconsole.log(\"Extracted User ID:\", users[0].id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update User",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Name updated successfully\", function () {\r\n    pm.expect(pm.response.json().name).to.eql(\"Updated Test User\");\r\n});\r\n\r\npm.test(\"Email updated successfully\", function () {\r\n    pm.expect(pm.response.json().email).to.eql(\"updated@example.com\");\r\n});\r\n\r\npm.test(\"Phone is correct\", function () {\r\n    pm.expect(pm.response.json().phone).to.eql(\"01700000000\");\r\n});\r\n\r\npm.test(\"Company name updated\", function () {\r\n    pm.expect(pm.response.json().company.name).to.eql(\"Updated Test Company\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": 1,\r\n  \"name\": \"Updated Test User\",\r\n  \"username\": \"updateduser\",\r\n  \"email\": \"updated@example.com\",\r\n  \"phone\": \"01700000000\",\r\n  \"company\": {\r\n    \"name\": \"Updated Test Company\"\r\n  }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/{{userId}}",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "userId",
+      "value": ""
+    }
+  ]
+}
